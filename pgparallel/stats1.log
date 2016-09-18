@@ -1,0 +1,188 @@
+Timing is on.
+Null display is "[NULL]".
+set max_parallel_workers_per_gather = 6;
+SET
+Time: 0.143 ms
+explain ANALYSE select p.id as idparc, c.gid as idcarreau, p.annee,
+    clock_timestamp() AS creation_time,
+    st_intersection(p.geom, c.geom) as geom
+  from parcelle_sample1 p
+  join carreau_sample1 c on st_intersects(p.geom, c.geom);
+                                                                           QUERY PLAN                                                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.28..6159956.73 rows=12712104 width=56) (actual time=1.538..105172.833 rows=2103554 loops=1)
+   Workers Planned: 5
+   Workers Launched: 5
+   ->  Nested Loop  (cost=0.28..4887746.33 rows=12712104 width=56) (actual time=1.606..104832.936 rows=350592 loops=6)
+         ->  Parallel Seq Scan on parcelle_sample1 p  (cost=0.00..102878.66 rows=578766 width=223) (actual time=0.211..517.207 rows=482115 loops=6)
+         ->  Index Scan using carreau_sample1_geom_gist on carreau_sample1 c  (cost=0.28..2.69 rows=3 width=124) (actual time=0.077..0.085 rows=1 loops=2892689)
+               Index Cond: (p.geom && geom)
+               Filter: _st_intersects(p.geom, geom)
+               Rows Removed by Filter: 0
+ Planning time: 12.430 ms
+ Execution time: 105343.352 ms
+(11 rows)
+
+Time: 105358.903 ms
+set max_parallel_workers_per_gather = 4;
+SET
+Time: 0.093 ms
+explain ANALYSE select p.id as idparc, c.gid as idcarreau, p.annee,
+    clock_timestamp() AS creation_time,
+    st_intersection(p.geom, c.geom) as geom
+  from parcelle_sample1 p
+  join carreau_sample1 c on st_intersects(p.geom, c.geom);
+                                                                           QUERY PLAN                                                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.28..6555170.35 rows=12712104 width=56) (actual time=0.567..110889.169 rows=2103554 loops=1)
+   Workers Planned: 4
+   Workers Launched: 4
+   ->  Nested Loop  (cost=0.28..5282959.95 rows=12712104 width=56) (actual time=0.713..110498.694 rows=420711 loops=5)
+         ->  Parallel Seq Scan on parcelle_sample1 p  (cost=0.00..104325.58 rows=723458 width=223) (actual time=0.012..294.005 rows=578538 loops=5)
+         ->  Index Scan using carreau_sample1_geom_gist on carreau_sample1 c  (cost=0.28..2.69 rows=3 width=124) (actual time=0.068..0.075 rows=1 loops=2892689)
+               Index Cond: (p.geom && geom)
+               Filter: _st_intersects(p.geom, geom)
+               Rows Removed by Filter: 0
+ Planning time: 3.584 ms
+ Execution time: 111054.000 ms
+(11 rows)
+
+Time: 111057.849 ms
+set max_parallel_workers_per_gather = 2;
+SET
+Time: 0.084 ms
+explain ANALYSE select p.id as idparc, c.gid as idcarreau, p.annee,
+    clock_timestamp() AS creation_time,
+    st_intersection(p.geom, c.geom) as geom
+  from parcelle_sample1 p
+  join carreau_sample1 c on st_intersects(p.geom, c.geom);
+                                                                           QUERY PLAN                                                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.28..7872544.58 rows=12712104 width=56) (actual time=0.543..138363.766 rows=2103554 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Nested Loop  (cost=0.28..6600334.18 rows=12712104 width=56) (actual time=0.484..137797.935 rows=701185 loops=3)
+         ->  Parallel Seq Scan on parcelle_sample1 p  (cost=0.00..109148.63 rows=1205763 width=223) (actual time=0.009..397.357 rows=964230 loops=3)
+         ->  Index Scan using carreau_sample1_geom_gist on carreau_sample1 c  (cost=0.28..2.69 rows=3 width=124) (actual time=0.051..0.057 rows=1 loops=2892689)
+               Index Cond: (p.geom && geom)
+               Filter: _st_intersects(p.geom, geom)
+               Rows Removed by Filter: 0
+ Planning time: 3.981 ms
+ Execution time: 138524.825 ms
+(11 rows)
+
+Time: 138529.056 ms
+set max_parallel_workers_per_gather = 0;
+SET
+Time: 0.100 ms
+explain ANALYSE select p.id as idparc, c.gid as idcarreau, p.annee,
+    clock_timestamp() AS creation_time,
+    st_intersection(p.geom, c.geom) as geom
+  from parcelle_sample1 p
+  join carreau_sample1 c on st_intersects(p.geom, c.geom);
+                                                                        QUERY PLAN                                                                         
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop  (cost=0.28..11211145.31 rows=12712104 width=56) (actual time=0.389..406225.777 rows=2103554 loops=1)
+   ->  Seq Scan on parcelle_sample1 p  (cost=0.00..126029.31 rows=2893831 width=223) (actual time=0.008..883.681 rows=2892689 loops=1)
+   ->  Index Scan using carreau_sample1_geom_gist on carreau_sample1 c  (cost=0.28..2.69 rows=3 width=124) (actual time=0.050..0.056 rows=1 loops=2892689)
+         Index Cond: (p.geom && geom)
+         Filter: _st_intersects(p.geom, geom)
+         Rows Removed by Filter: 0
+ Planning time: 3.896 ms
+ Execution time: 406488.870 ms
+(8 rows)
+
+Time: 406493.054 ms
+set max_parallel_workers_per_gather = 6;
+SET
+Time: 0.113 ms
+explain ANALYSE select p.id as idparc, c.gid as idcarreau, p.annee,
+    clock_timestamp() AS creation_time,
+    st_intersection(p.geom, c.geom) as geom
+  from parcelle_sample0 p
+  join carreau_sample0 c on st_intersects(p.geom, c.geom);
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.28..297865585.74 rows=683808019 width=56) (actual time=2.744..726289.017 rows=14116603 loops=1)
+   Workers Planned: 6
+   Workers Launched: 6
+   ->  Nested Loop  (cost=0.29..229483783.84 rows=683808019 width=56) (actual time=1.914..724244.193 rows=2016658 loops=7)
+         ->  Parallel Seq Scan on parcelle_sample0 p  (cost=0.00..843149.22 rows=3687522 width=247) (actual time=0.142..2440.866 rows=3160762 loops=7)
+         ->  Index Scan using carreau_sample0_geom_gist on carreau_sample0 c  (cost=0.29..15.00 rows=18 width=124) (actual time=0.087..0.095 rows=1 loops=22125334)
+               Index Cond: (p.geom && geom)
+               Filter: _st_intersects(p.geom, geom)
+               Rows Removed by Filter: 0
+ Planning time: 7.855 ms
+ Execution time: 727422.439 ms
+(11 rows)
+
+Time: 727432.907 ms
+set max_parallel_workers_per_gather = 4;
+SET
+Time: 0.061 ms
+explain ANALYSE select p.id as idparc, c.gid as idcarreau, p.annee,
+    clock_timestamp() AS creation_time,
+    st_intersection(p.geom, c.geom) as geom
+  from parcelle_sample0 p
+  join carreau_sample0 c on st_intersects(p.geom, c.geom);
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.28..325873578.26 rows=683808019 width=56) (actual time=0.921..769427.469 rows=14116603 loops=1)
+   Workers Planned: 4
+   Workers Launched: 4
+   ->  Nested Loop  (cost=0.29..257491776.36 rows=683808019 width=56) (actual time=0.782..766837.565 rows=2823321 loops=5)
+         ->  Parallel Seq Scan on parcelle_sample0 p  (cost=0.00..861586.83 rows=5531283 width=247) (actual time=0.049..2297.002 rows=4425067 loops=5)
+         ->  Index Scan using carreau_sample0_geom_gist on carreau_sample0 c  (cost=0.29..15.00 rows=18 width=124) (actual time=0.066..0.072 rows=1 loops=22125334)
+               Index Cond: (p.geom && geom)
+               Filter: _st_intersects(p.geom, geom)
+               Rows Removed by Filter: 0
+ Planning time: 3.786 ms
+ Execution time: 770442.347 ms
+(11 rows)
+
+Time: 770446.404 ms
+set max_parallel_workers_per_gather = 2;
+SET
+Time: 0.101 ms
+explain ANALYSE select p.id as idparc, c.gid as idcarreau, p.annee,
+    clock_timestamp() AS creation_time,
+    st_intersection(p.geom, c.geom) as geom
+  from parcelle_sample0 p
+  join carreau_sample0 c on st_intersects(p.geom, c.geom);
+                                                                              QUERY PLAN                                                                               
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.42..378935377.36 rows=683808019 width=56) (actual time=3.272..651707.944 rows=14116603 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Nested Loop  (cost=0.42..310553575.46 rows=683808019 width=56) (actual time=1.669..648237.549 rows=4705534 loops=3)
+         ->  Parallel Seq Scan on carreau_sample0 c  (cost=0.00..15904.00 rows=227200 width=124) (actual time=0.010..117.453 rows=181760 loops=3)
+         ->  Index Scan using parcelle_sample0_geom_gist on parcelle_sample0 p  (cost=0.42..599.47 rows=738 width=247) (actual time=0.133..0.500 rows=26 loops=545280)
+               Index Cond: (geom && c.geom)
+               Filter: _st_intersects(geom, c.geom)
+               Rows Removed by Filter: 4
+ Planning time: 3.705 ms
+ Execution time: 652781.513 ms
+(11 rows)
+
+Time: 652785.559 ms
+set max_parallel_workers_per_gather = 0;
+SET
+Time: 0.081 ms
+explain ANALYSE select p.id as idparc, c.gid as idcarreau, p.annee,
+    clock_timestamp() AS creation_time,
+    st_intersection(p.geom, c.geom) as geom
+  from parcelle_sample0 p
+  join carreau_sample0 c on st_intersects(p.geom, c.geom);
+                                                                           QUERY PLAN                                                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop  (cost=0.42..503583361.60 rows=683808019 width=56) (actual time=0.380..1818739.878 rows=14116603 loops=1)
+   ->  Seq Scan on carreau_sample0 c  (cost=0.00..19084.80 rows=545280 width=124) (actual time=0.012..327.970 rows=545280 loops=1)
+   ->  Index Scan using parcelle_sample0_geom_gist on parcelle_sample0 p  (cost=0.42..599.47 rows=738 width=247) (actual time=0.110..0.414 rows=26 loops=545280)
+         Index Cond: (geom && c.geom)
+         Filter: _st_intersects(geom, c.geom)
+         Rows Removed by Filter: 4
+ Planning time: 3.870 ms
+ Execution time: 1820293.983 ms
+(8 rows)
+
+Time: 1820298.111 ms
