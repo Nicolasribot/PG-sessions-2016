@@ -3,7 +3,7 @@ set max_parallel_workers_per_gather = 0;
 
 ------------------------------------------------------------------------------------------------------------------------
 -- tp de nettoyage des données par postgis pur (sans topo)
--- extrait de la table parcelle: parc_sample1
+-- extrait de la table parcelle: parc_sample0
 -- extent: BOX(657098 6861118,662058 6864439)
 --
 -- But: identifier les pg en intersection
@@ -55,7 +55,7 @@ create UNLOGGED table inter2 as (
     SELECT
       unnest(ARRAY [(p1.id, 1)::pgop_type, (p2.id, 2)::pgop_type]) as geom_ope,
       st_intersection(p1.geom, p2.geom) AS intergeom
-    FROM parcelle_sample1 p1 JOIN parcelle_sample1 p2 ON st_overlaps(p1.geom, p2.geom) AND p1.id < p2.id
+    FROM parcelle_sample0 p1 JOIN parcelle_sample0 p2 ON st_overlaps(p1.geom, p2.geom) AND p1.id < p2.id
     )
   select (t.geom_ope).gid, (t.geom_ope).op, st_union(intergeom) as intergeom
   FROM tmp t
@@ -90,7 +90,7 @@ with tmp as (
       array_agg(t.intergeom ORDER BY t.op) AS uniondiffgeom,
       p.geom
     FROM inter2 t
-      JOIN parcelle_sample1 p ON t.gid = p.id
+      JOIN parcelle_sample0 p ON t.gid = p.id
     GROUP BY t.gid, p.geom
 ), tmp1 as (
     SELECT
@@ -105,18 +105,55 @@ with tmp as (
       ELSE uniondiffgeom END AS uniondiffgeom
     FROM tmp t
 ) select t.gid,
-  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[1]) as geom
+  st_difference(
+      st_union(
+          t.geom, t.uniondiffgeom[1]
+      ), t.uniondiffgeom[2]
+  ) as geom
   from tmp1 t;
 
 -- delete from main table from this table
 create index parc_to_clean_gid_idx on parc_to_clean(gid);
 VACUUM ANALYSE parc_to_clean;
 
-DROP TABLE IF EXISTS parcelle_sample1_clean;
-create table parcelle_sample1_clean as  (
-  select p.id, p.idpar, p.annee, p.creation_time,
+DROP TABLE IF EXISTS parcelle_sample0_clean;
+create table parcelle_sample0_clean as  (
+  select p.id,
+--     p.idpar, p.annee, p.creation_time,
     coalesce (pc.geom, p.geom) as geom
-  from parcelle_sample1 p left join parc_to_clean pc on p.id = pc.gid
+  from parcelle_sample0 p left join parc_to_clean pc on p.id = pc.gid
 );
 
  --2m 47s 483ms 167
+
+-- select * from parc_to_clean;
+--
+--  SELECT
+--       t.gid,
+--       array_agg(t.op ORDER BY t.op) AS ops,
+--    (array_agg(t.intergeom ORDER BY t.op))[1] AS uniondiffgeom
+--     FROM inter2 t
+--       JOIN parcelle_sample0 p ON t.gid = p.id
+--     GROUP BY t.gid, p.geom;
+--
+-- with tmp as (
+--  SELECT
+--       t.gid,
+--       array_agg(t.op ORDER BY t.op) AS ops,
+--       array_agg(t.intergeom ORDER BY t.op) AS uniondiffgeom,
+--       p.geom
+--     FROM inter2 t
+--       JOIN parcelle_sample0 p ON t.gid = p.id
+--     GROUP BY t.gid, p.geom
+-- )
+--     SELECT
+--       t.gid,
+--       t.ops,
+--       t.geom,
+--       -- todo: smarter !
+--       CASE WHEN array_length(t.ops, 1) = 1 AND t.ops [1] = 1
+--         THEN uniondiffgeom || 'GEOMETRYCOLLECTION EMPTY' :: GEOMETRY
+--       WHEN array_length(t.ops, 1) = 1 AND t.ops [1] = 2
+--         THEN 'GEOMETRYCOLLECTION EMPTY' :: GEOMETRY || uniondiffgeom
+--       ELSE uniondiffgeom END AS uniondiffgeom
+--     FROM tmp t;

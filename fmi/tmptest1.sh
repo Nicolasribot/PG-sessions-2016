@@ -12,7 +12,7 @@
 ######### Start of options #########
 
 WORK_MEM=200   # set a slightly higher work_mem if you're in a hurry. 200-500 on vroom2 is ok. 100 on DB04.
-SPLIT=10       # e.g. 1 dataset = 10 pieces, 2 datasets=100 pieces, ...  (10-20 is a good number usually).
+SPLIT=5       # e.g. 1 dataset = 10 pieces, 2 datasets=100 pieces, ...  (10-20 is a good number usually).
 JOBS=8	       # number of tasks to run in parallel. Vroom=4/8, db04=8, vroom2=16/32.
 
 # Name of destination schema. Change this.
@@ -97,9 +97,9 @@ done
 # Commands to close the union command, and analyze/index the new table.
 echo -en "(select * from ${RESULT_SCHEMA}.${RESULT_TABLE}_0_0 limit 0) as tmp1 ) as b; alter table ${RESULT_SCHEMA}.${RESULT_TABLE} add PRIMARY KEY (gid);\" | ${DB_LOGIN}" >> join_commands
 
-# disables index in test mode.
+# disables index and analyse in test mode.
 #echo -e  "echo \"$MAKE_GEOIDX\" | ${DB_LOGIN}" >> index_commands
-echo -e  "analyze ${RESULT_SCHEMA}.${RESULT_TABLE} | ${DB_LOGIN};" >> tidy_commands
+#echo -e  "analyze ${RESULT_SCHEMA}.${RESULT_TABLE} | ${DB_LOGIN};" >> tidy_commands
 
 ## Do the work
 

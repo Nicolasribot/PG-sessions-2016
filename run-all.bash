@@ -6,10 +6,10 @@ start_time=`date +%s`
 
 cd ./fmi/
 ./run.bash
-cd ../pgparallel/
-./run.bash
-cd ../par_psql/
-./run.bash
+#cd ../pgparallel/
+#./run.bash
+#cd ../par_psql/
+#./run.bash
 
 end_time=`date +%s`
 

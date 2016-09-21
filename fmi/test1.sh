@@ -97,9 +97,9 @@ done
 # Commands to close the union command, and analyze/index the new table.
 echo -en "(select * from ${RESULT_SCHEMA}.${RESULT_TABLE}_0_0 limit 0) as tmp1 ) as b; alter table ${RESULT_SCHEMA}.${RESULT_TABLE} add PRIMARY KEY (gid);\" | ${DB_LOGIN}" >> join_commands
 
-# disables index in test mode.
+# disables index and analyse in test mode.
 #echo -e  "echo \"$MAKE_GEOIDX\" | ${DB_LOGIN}" >> index_commands
-echo -e  "analyze ${RESULT_SCHEMA}.${RESULT_TABLE} | ${DB_LOGIN};" >> tidy_commands
+#echo -e  "analyze ${RESULT_SCHEMA}.${RESULT_TABLE} | ${DB_LOGIN};" >> tidy_commands
 
 ## Do the work
 

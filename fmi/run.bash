@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for i in 10 ;do
+for i in 5 ;do
     for j in 8; do
         start_time=`date +%s`
         rm tmptest1.sh

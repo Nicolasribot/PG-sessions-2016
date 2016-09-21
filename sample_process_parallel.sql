@@ -75,56 +75,56 @@ drop table if exists inter2_8; --&
 create UNLOGGED table inter2_1 as (
   select (t.geom_ope).gid, (t.geom_ope).op, st_union(intergeom) as intergeom
   FROM inter1 t
-  where t.id%8=0
+  where (t.geom_ope).gid%8=0
   GROUP BY (t.geom_ope).gid, (t.geom_ope).op
 ); --&
 
 create UNLOGGED table inter2_2 as (
   select (t.geom_ope).gid, (t.geom_ope).op, st_union(intergeom) as intergeom
   FROM inter1 t
-  where t.id%8=1
+  where (t.geom_ope).gid%8=1
   GROUP BY (t.geom_ope).gid, (t.geom_ope).op
 ); --&
 
 create UNLOGGED table inter2_3 as (
   select (t.geom_ope).gid, (t.geom_ope).op, st_union(intergeom) as intergeom
   FROM inter1 t
-  where t.id%8=2
+  where (t.geom_ope).gid%8=2
   GROUP BY (t.geom_ope).gid, (t.geom_ope).op
 ); --&
 
 create UNLOGGED table inter2_4 as (
   select (t.geom_ope).gid, (t.geom_ope).op, st_union(intergeom) as intergeom
   FROM inter1 t
-  where t.id%8=3
+  where (t.geom_ope).gid%8=3
   GROUP BY (t.geom_ope).gid, (t.geom_ope).op
 ); --&
 
 create UNLOGGED table inter2_5 as (
   select (t.geom_ope).gid, (t.geom_ope).op, st_union(intergeom) as intergeom
   FROM inter1 t
-  where t.id%8=4
+  where (t.geom_ope).gid%8=4
   GROUP BY (t.geom_ope).gid, (t.geom_ope).op
 ); --&
 
 create UNLOGGED table inter2_6 as (
   select (t.geom_ope).gid, (t.geom_ope).op, st_union(intergeom) as intergeom
   FROM inter1 t
-  where t.id%8=5
+  where (t.geom_ope).gid%8=5
   GROUP BY (t.geom_ope).gid, (t.geom_ope).op
 ); --&
 
 create UNLOGGED table inter2_7 as (
   select (t.geom_ope).gid, (t.geom_ope).op, st_union(intergeom) as intergeom
   FROM inter1 t
-  where t.id%8=6
+  where (t.geom_ope).gid%8=6
   GROUP BY (t.geom_ope).gid, (t.geom_ope).op
 ); --&
 
 create UNLOGGED table inter2_8 as (
   select (t.geom_ope).gid, (t.geom_ope).op, st_union(intergeom) as intergeom
   FROM inter1 t
-  where t.id%8=7
+  where (t.geom_ope).gid%8=7
   GROUP BY (t.geom_ope).gid, (t.geom_ope).op
 ); --&
 
@@ -187,7 +187,7 @@ with tmp as (
       p.geom
     FROM inter2 t
       JOIN parcelle_sample2 p ON t.gid = p.id
-    WHERE t.id%8=0
+    WHERE t.gid%8=0
     GROUP BY t.gid, p.geom
 ), tmp1 as (
     SELECT
@@ -201,7 +201,7 @@ with tmp as (
       ELSE uniondiffgeom END AS uniondiffgeom
     FROM tmp t
 ) select t.gid,
-  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[1]) as geom
+  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[2]) as geom
   from tmp1 t; --&
 
 CREATE TABLE parc_to_clean_2 as
@@ -213,7 +213,7 @@ with tmp as (
       p.geom
     FROM inter2 t
       JOIN parcelle_sample2 p ON t.gid = p.id
-    WHERE t.id%8=1
+    WHERE t.gid%8=1
     GROUP BY t.gid, p.geom
 ), tmp1 as (
     SELECT
@@ -227,7 +227,7 @@ with tmp as (
       ELSE uniondiffgeom END AS uniondiffgeom
     FROM tmp t
 ) select t.gid,
-  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[1]) as geom
+  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[2]) as geom
   from tmp1 t; --&
 
 CREATE TABLE parc_to_clean_3 as
@@ -239,7 +239,7 @@ with tmp as (
       p.geom
     FROM inter2 t
       JOIN parcelle_sample2 p ON t.gid = p.id
-    WHERE t.id%8=2
+    WHERE t.gid%8=2
     GROUP BY t.gid, p.geom
 ), tmp1 as (
     SELECT
@@ -253,7 +253,7 @@ with tmp as (
       ELSE uniondiffgeom END AS uniondiffgeom
     FROM tmp t
 ) select t.gid,
-  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[1]) as geom
+  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[2]) as geom
   from tmp1 t; --&
 
 CREATE TABLE parc_to_clean_4 as
@@ -265,7 +265,7 @@ with tmp as (
       p.geom
     FROM inter2 t
       JOIN parcelle_sample2 p ON t.gid = p.id
-    WHERE t.id%8=3
+    WHERE t.gid%8=3
     GROUP BY t.gid, p.geom
 ), tmp1 as (
     SELECT
@@ -279,7 +279,7 @@ with tmp as (
       ELSE uniondiffgeom END AS uniondiffgeom
     FROM tmp t
 ) select t.gid,
-  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[1]) as geom
+  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[2]) as geom
   from tmp1 t; --&
 
 CREATE TABLE parc_to_clean_5 as
@@ -291,7 +291,7 @@ with tmp as (
       p.geom
     FROM inter2 t
       JOIN parcelle_sample2 p ON t.gid = p.id
-    WHERE t.id%8=4
+    WHERE t.gid%8=4
     GROUP BY t.gid, p.geom
 ), tmp1 as (
     SELECT
@@ -305,7 +305,7 @@ with tmp as (
       ELSE uniondiffgeom END AS uniondiffgeom
     FROM tmp t
 ) select t.gid,
-  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[1]) as geom
+  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[2]) as geom
   from tmp1 t; --&
 
 CREATE TABLE parc_to_clean_6 as
@@ -317,7 +317,7 @@ with tmp as (
       p.geom
     FROM inter2 t
       JOIN parcelle_sample2 p ON t.gid = p.id
-    WHERE t.id%8=5
+    WHERE t.gid%8=5
     GROUP BY t.gid, p.geom
 ), tmp1 as (
     SELECT
@@ -331,7 +331,7 @@ with tmp as (
       ELSE uniondiffgeom END AS uniondiffgeom
     FROM tmp t
 ) select t.gid,
-  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[1]) as geom
+  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[2]) as geom
   from tmp1 t; --&
 
 CREATE TABLE parc_to_clean_7 as
@@ -343,7 +343,7 @@ with tmp as (
       p.geom
     FROM inter2 t
       JOIN parcelle_sample2 p ON t.gid = p.id
-    WHERE t.id%8=6
+    WHERE t.gid%8=6
     GROUP BY t.gid, p.geom
 ), tmp1 as (
     SELECT
@@ -357,7 +357,7 @@ with tmp as (
       ELSE uniondiffgeom END AS uniondiffgeom
     FROM tmp t
 ) select t.gid,
-  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[1]) as geom
+  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[2]) as geom
   from tmp1 t; --&
 
 CREATE TABLE parc_to_clean_8 as
@@ -369,7 +369,7 @@ with tmp as (
       p.geom
     FROM inter2 t
       JOIN parcelle_sample2 p ON t.gid = p.id
-    WHERE t.id%8=7
+    WHERE t.gid%8=7
     GROUP BY t.gid, p.geom
 ), tmp1 as (
     SELECT
@@ -383,7 +383,7 @@ with tmp as (
       ELSE uniondiffgeom END AS uniondiffgeom
     FROM tmp t
 ) select t.gid,
-  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[1]) as geom
+  st_difference(st_union(t.geom, t.uniondiffgeom[1]), t.uniondiffgeom[2]) as geom
   from tmp1 t; --&
 
 drop table if exists parc_to_clean;
@@ -412,14 +412,9 @@ VACUUM ANALYSE parc_to_clean;
 
 DROP TABLE IF EXISTS parcelle_sample2_clean;
 create table parcelle_sample2_clean as  (
-  select p.id, p.idpar, p.annee,
+  select p.id,
     coalesce (pc.geom, p.geom) as geom
   from parcelle_sample2 p left join parc_to_clean pc on p.id = pc.gid
 );
 
 select now();
--- 1m 2s 757ms 63
-
---  2016-09-17 23:44:13.59472+02
---  2016-09-17 23:34:54.886942+02
---  9min19s vs 12 min vs 30min !!

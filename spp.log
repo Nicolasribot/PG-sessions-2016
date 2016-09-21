@@ -1,16 +1,16 @@
 Timing is on.
 Null display is "[NULL]".
 SET
-Time: 0.166 ms
-             now              
-------------------------------
- 2016-09-18 14:46:11.98441+02
+Time: 0.150 ms
+              now              
+-------------------------------
+ 2016-09-21 09:44:42.496522+02
 (1 row)
 
-Time: 0.394 ms
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.Pmm0rMUk:60: NOTICE:  table inter1 created
+Time: 0.372 ms
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.DlNik8x8:60: NOTICE:  table inter1 created
 CONTEXT:  PL/pgSQL function create_table_parallel(text,text,text,integer,boolean) line 17 at RAISE
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.Pmm0rMUk:60: NOTICE:  cmd: copy inter1 FROM PROGRAM '/usr/local/pgsql-9.6/bin/psql -A -t -p 5439 -d nicolas -c "set max_parallel_workers_per_gather = 8; SELECT
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.DlNik8x8:60: NOTICE:  cmd: copy inter1 FROM PROGRAM '/usr/local/pgsql-9.6/bin/psql -A -t -p 5439 -d nicolas -c "set max_parallel_workers_per_gather = 8; SELECT
     unnest(ARRAY [(p1.id, 1)::pgop_type, (p2.id, 2)::pgop_type]) as geom_ope,
     st_intersection(p1.geom, p2.geom) AS intergeom
   FROM parcelle_sample2 p1 JOIN parcelle_sample2 p2 ON st_overlaps(p1.geom, p2.geom) AND p1.id < p2.id"' with (DELIMITER '|')
@@ -20,247 +20,256 @@ CONTEXT:  PL/pgSQL function create_table_parallel(text,text,text,integer,boolean
  inter1 created
 (1 row)
 
-Time: 37909.516 ms
+Time: 39804.649 ms
 ALTER TABLE
-Time: 365.938 ms
+Time: 359.551 ms
 VACUUM
-Time: 174.393 ms
+Time: 172.793 ms
 Timing is on.
 Null display is "[NULL]".
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.O1PMEGBV:2: NOTICE:  table "inter2_1" does not exist, skipping
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.ioAB4hjz:2: NOTICE:  table "inter2_1" does not exist, skipping
 DROP TABLE
-Time: 0.474 ms
+Time: 0.366 ms
 Timing is on.
 Null display is "[NULL]".
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.gJWou7zn:1: NOTICE:  table "inter2_2" does not exist, skipping
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.Js1qENh9:1: NOTICE:  table "inter2_2" does not exist, skipping
 DROP TABLE
-Time: 0.429 ms
+Time: 0.404 ms
 Timing is on.
 Null display is "[NULL]".
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.hiLZQQNK:1: NOTICE:  table "inter2_3" does not exist, skipping
-DROP TABLE
-Time: 0.433 ms
-Timing is on.
-Null display is "[NULL]".
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.wfb6FqHg:1: NOTICE:  table "inter2_4" does not exist, skipping
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.qWEmudb8:1: NOTICE:  table "inter2_3" does not exist, skipping
 DROP TABLE
 Time: 0.415 ms
 Timing is on.
 Null display is "[NULL]".
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.NkTepFeW:1: NOTICE:  table "inter2_5" does not exist, skipping
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.wAALRr02:1: NOTICE:  table "inter2_4" does not exist, skipping
 DROP TABLE
-Time: 0.492 ms
+Time: 0.361 ms
 Timing is on.
 Null display is "[NULL]".
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.Wtot8cjJ:1: NOTICE:  table "inter2_6" does not exist, skipping
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.DtX6P7UZ:1: NOTICE:  table "inter2_5" does not exist, skipping
 DROP TABLE
-Time: 0.395 ms
+Time: 0.337 ms
 Timing is on.
 Null display is "[NULL]".
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.3c0pSxAh:1: NOTICE:  table "inter2_7" does not exist, skipping
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.LVxg22rJ:1: NOTICE:  table "inter2_6" does not exist, skipping
 DROP TABLE
-Time: 0.453 ms
+Time: 0.401 ms
 Timing is on.
 Null display is "[NULL]".
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.oj3Qur4d:1: NOTICE:  table "inter2_8" does not exist, skipping
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.lppCuA2e:1: NOTICE:  table "inter2_7" does not exist, skipping
 DROP TABLE
-Time: 0.469 ms
+Time: 0.352 ms
 Timing is on.
 Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-SELECT 18576
-Time: 294.732 ms
-Timing is on.
-Null display is "[NULL]".
-SELECT 18786
-Time: 333.750 ms
-Timing is on.
-Null display is "[NULL]".
-SELECT 18646
-Time: 333.625 ms
-Timing is on.
-Null display is "[NULL]".
-SELECT 18746
-Time: 365.584 ms
-SELECT 18704
-Time: 343.383 ms
-SELECT 18653
-Time: 321.920 ms
-SELECT 18564
-Time: 288.596 ms
-SELECT 18670
-Time: 276.262 ms
-Timing is on.
-Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.MEPJ1oVk:1: NOTICE:  table "inter2_8" does not exist, skipping
 DROP TABLE
-Time: 27.849 ms
-SELECT 149345
-Time: 166.820 ms
+Time: 0.372 ms
 Timing is on.
 Null display is "[NULL]".
 Timing is on.
 Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+SELECT 11687
+Time: 1511.856 ms
+SELECT 11430
+Time: 1513.579 ms
+SELECT 11329
+Time: 1708.513 ms
+SELECT 11412
+Time: 1551.757 ms
+SELECT 11210
+Time: 1511.796 ms
+SELECT 11487
+Time: 1396.021 ms
+SELECT 11506
+Time: 1506.666 ms
+SELECT 11398
+Time: 1377.257 ms
+Timing is on.
+Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.TMlVFOiQ:2: NOTICE:  table "inter2" does not exist, skipping
 DROP TABLE
-Time: 17.424 ms
+Time: 0.361 ms
+SELECT 91459
+Time: 140.473 ms
 Timing is on.
 Null display is "[NULL]".
-DROP TABLE
-Time: 19.086 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 18.302 ms
+Time: 16.154 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 17.535 ms
+Time: 18.198 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 19.827 ms
+Time: 18.218 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 18.728 ms
+Time: 17.317 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 18.074 ms
+Time: 16.927 ms
+Timing is on.
+Null display is "[NULL]".
 DROP TABLE
-Time: 17.322 ms
+Time: 18.897 ms
+Timing is on.
+Null display is "[NULL]".
+DROP TABLE
+Time: 18.250 ms
+DROP TABLE
+Time: 16.916 ms
 Timing is on.
 Null display is "[NULL]".
 ALTER TABLE
-Time: 312.603 ms
+Time: 216.489 ms
 CREATE INDEX
-Time: 70.820 ms
+Time: 42.929 ms
 CREATE INDEX
-Time: 1267.393 ms
+Time: 735.183 ms
 VACUUM
-Time: 99.798 ms
+Time: 88.239 ms
+Timing is on.
+Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.NlNTY6Kz:12: NOTICE:  table "parc_to_clean_1" does not exist, skipping
+DROP TABLE
+Time: 0.386 ms
+Timing is on.
+Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.2aOsCr1O:1: NOTICE:  table "parc_to_clean_2" does not exist, skipping
+DROP TABLE
+Time: 0.550 ms
+Timing is on.
+Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.2ZfGlF2L:1: NOTICE:  table "parc_to_clean_3" does not exist, skipping
+DROP TABLE
+Time: 0.398 ms
+Timing is on.
+Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.qAJNvqUz:1: NOTICE:  table "parc_to_clean_4" does not exist, skipping
+DROP TABLE
+Time: 0.381 ms
+Timing is on.
+Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.j4AUqv4b:1: NOTICE:  table "parc_to_clean_5" does not exist, skipping
+DROP TABLE
+Time: 0.393 ms
+Timing is on.
+Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.gv9XtBIu:1: NOTICE:  table "parc_to_clean_6" does not exist, skipping
+DROP TABLE
+Time: 0.497 ms
+Timing is on.
+Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.289IzWeh:1: NOTICE:  table "parc_to_clean_7" does not exist, skipping
+DROP TABLE
+Time: 0.387 ms
+Timing is on.
+Null display is "[NULL]".
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.yhU36LGh:1: NOTICE:  table "parc_to_clean_8" does not exist, skipping
+DROP TABLE
+Time: 0.378 ms
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+Timing is on.
+Null display is "[NULL]".
+SELECT 8423
+Time: 3612.102 ms
+SELECT 8649
+Time: 3772.012 ms
+SELECT 8452
+Time: 3809.781 ms
+SELECT 8451
+Time: 3838.190 ms
+SELECT 8338
+Time: 3672.993 ms
+SELECT 8538
+Time: 3630.209 ms
+SELECT 8532
+Time: 3438.501 ms
+SELECT 8430
+Time: 3226.344 ms
+Timing is on.
+Null display is "[NULL]".
+DROP TABLE
+Time: 18.946 ms
+SELECT 67813
+Time: 116.042 ms
 Timing is on.
 Null display is "[NULL]".
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 18.160 ms
+Time: 16.087 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 17.899 ms
+Time: 16.341 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 19.883 ms
+Time: 17.448 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 19.336 ms
+Time: 17.699 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 18.174 ms
+Time: 17.018 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 19.407 ms
+Time: 17.654 ms
 Timing is on.
 Null display is "[NULL]".
 DROP TABLE
-Time: 21.453 ms
+Time: 18.921 ms
 DROP TABLE
-Time: 18.590 ms
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-SELECT 16767
-Time: 4008.063 ms
-SELECT 16734
-Time: 4200.076 ms
-SELECT 16733
-Time: 4298.384 ms
-SELECT 16716
-Time: 4256.333 ms
-SELECT 16623
-Time: 4191.991 ms
-SELECT 16676
-Time: 4072.576 ms
-SELECT 16636
-Time: 3948.647 ms
-SELECT 16752
-Time: 3748.706 ms
-Timing is on.
-Null display is "[NULL]".
-DROP TABLE
-Time: 15.194 ms
-SELECT 133637
-Time: 206.499 ms
-Timing is on.
-Null display is "[NULL]".
-Timing is on.
-Null display is "[NULL]".
-DROP TABLE
-Time: 18.593 ms
-Timing is on.
-Null display is "[NULL]".
-DROP TABLE
-Time: 17.974 ms
-Timing is on.
-Null display is "[NULL]".
-DROP TABLE
-Time: 17.748 ms
-Timing is on.
-Null display is "[NULL]".
-DROP TABLE
-Time: 19.541 ms
-Timing is on.
-Null display is "[NULL]".
-DROP TABLE
-Time: 19.181 ms
-Timing is on.
-Null display is "[NULL]".
-DROP TABLE
-Time: 18.240 ms
-Timing is on.
-Null display is "[NULL]".
-DROP TABLE
-Time: 18.823 ms
-DROP TABLE
-Time: 19.202 ms
+Time: 17.173 ms
 Timing is on.
 Null display is "[NULL]".
 CREATE INDEX
-Time: 97.329 ms
+Time: 44.460 ms
 VACUUM
-Time: 97.092 ms
-psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.v8C1TC4D:6: NOTICE:  table "parcelle_sample2_clean" does not exist, skipping
+Time: 79.025 ms
+psql:/var/folders/z2/w43l74wd5s17006dqbhnb0740000gn/T/tmp.EAzatINs:6: NOTICE:  table "parcelle_sample2_clean" does not exist, skipping
 DROP TABLE
-Time: 0.125 ms
-SELECT 441955
-Time: 1376.841 ms
+Time: 0.173 ms
+SELECT 376131
+Time: 888.503 ms
               now              
 -------------------------------
- 2016-09-18 14:47:02.148709+02
+ 2016-09-21 09:45:33.762449+02
 (1 row)
 
-Time: 32.367 ms
+Time: 6.509 ms

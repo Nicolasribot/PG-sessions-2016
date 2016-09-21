@@ -399,22 +399,27 @@ select count(*) from parcelle_sample3;
 
 -- Table switch to do before launching tests:
 drop table if exists parcelle_sample;
-create table parcelle_sample (like parcelle_sample1 INCLUDING all);
+create table parcelle_sample (like parcelle_sample0 INCLUDING all);
 insert into parcelle_sample 
-  select * from parcelle_sample1;
+  select * from parcelle_sample0;
 
 VACUUM ANALYSE parcelle_sample;
 
 drop table if exists carreau_sample;
-create table carreau_sample (like carreau_sample1 INCLUDING all);
+create table carreau_sample (like carreau_sample0 INCLUDING all);
 insert into carreau_sample 
-  select * from carreau_sample1;
+  select * from carreau_sample0;
 
 VACUUM ANALYSE carreau_sample;
 
 -- swap big table
 alter table parcelle RENAME to parcelle_sample;
 alter table carreau RENAME to carreau_sample;
+
+-- reverse
+alter table parcelle_sample RENAME to parcelle;
+alter table carreau_sample RENAME to carreau;
+
 
 ------------------------------------------------------------------------------------------
 drop TABLE if EXISTS inter_sample;
@@ -462,6 +467,7 @@ select count(*) from inter_pgpar;
 
 -- on big data:
 -- FMI Execution time: 10831 s. 180min
+-- FMI w/o idx and analuse: select 10831 - 2500 = 8331
 -- Par-psql Execution time: 3883 s. 64 min
 -- PG // Execution time (6 workers): 15122 s. 4h20
 -- Total Execution time: 29837 s. 8h28
@@ -718,9 +724,50 @@ explain analyse select st_isvalidReason(geom)
 from parcelle_sample2 where not st_isvalid(geom);
 -- Execution time: 17528.797 ms vs Execution time: 4993.032 ms :))
 
+-- 175s vs 50
+
 -- clean //  13m 51s 395ms
 -- clean classic: 30m 32s 955ms
 
 select pg_size_pretty(pg_database_size('nicolas'));
 
+-- slides clean:
+alter table parcelle_sample4 rename "GEOMETRY" to geom;
 
+select count(*) from parc_to_clean;
+-- 67813 vs 133633 => pb
+-- 1411431
+
+select count(*) from inter2;
+-- 91459 vs 149920
+-- 2017365
+-- 16:41:55 - 16:50:21
+
+-- retest stats no // sample0
+drop table if exists inter_sample0;
+create table inter_sample0 as
+  select p.id as idparc, c.gid as idcarreau, p.annee, st_intersection(p.geom, c.geom) as geom
+  from parcelle_sample0 p join carreau_sample0 c on st_intersects(p.geom, c.geom);
+
+
+select * from result;
+
+-- cleaning, sample1:
+--  2016-09-20 11:38:18.410964+02 11:46:55.43066+0
+-- 8min 33 513s vs: 513
+-- 31min14s 1814s
+
+select count(*) from parcelle_sample0;
+select count(*) from carreau_sample0;
+
+-- 1m 2s 757ms 63
+
+--  2016-09-17 23:44:13.59472+02
+--  2016-09-17 23:34:54.886942+02
+--  9min19s vs 12 min vs 30min !!
+--32m 45s 990ms
+--
+--  15:52:44.37
+--  16:56:40.826954+02
+
+select count(*) from parcelle_sample2;
